@@ -25,31 +25,23 @@ public class FuncionarioController {
 
     @GetMapping
     public ResponseEntity<List<FuncionarioResponse>> listarFuncionarios() {
-        // Você precisará implementar o método listarTodos() no seu Service
-        // return ResponseEntity.ok(funcionarioService.listarTodos());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(funcionarioService.listarTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioResponse> buscarPorId(@PathVariable Long id) {
-        // Você precisará implementar o método buscarPorId() no seu Service
-        // return funcionarioService.buscarPorId(id)
-        //     .map(ResponseEntity::ok)
-        //     .orElseGet(() -> ResponseEntity.notFound().build());
-        return ResponseEntity.ok().build(); // Temporário
+        return funcionarioService.buscarPorId(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<FuncionarioResponse> atualizarFuncionario(@PathVariable Long id, @RequestBody FuncionarioRequest request) {
-        // return funcionarioService.atualizarFuncionario(id, request)
-        //     .map(ResponseEntity::ok)
-        //     .orElseGet(() -> ResponseEntity.notFound().build());
-        return ResponseEntity.ok().build(); // Temporário
+        return funcionarioService.atualizarFuncionario(id, request).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        // funcionarioService.deletar(id);
+        funcionarioService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 }

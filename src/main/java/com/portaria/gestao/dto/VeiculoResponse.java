@@ -7,4 +7,5 @@ public class VeiculoResponse {
     private Long id;
     private String placa;
     private String modelo;
+    private String cor;
 }

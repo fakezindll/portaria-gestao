@@ -26,10 +26,9 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/login").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/**").permitAll().requestMatchers("/api/funcionarios/**").authenticated().requestMatchers("/api/portaria/**").authenticated().anyRequest().authenticated())
 
                 .authenticationProvider(authenticationProvider)
-
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
