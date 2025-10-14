@@ -1,5 +1,6 @@
 package com.portaria.gestao.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Funcionario {
     private String fotoUrl;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Veiculo> veiculos;
 
     private boolean isAtivo = true;

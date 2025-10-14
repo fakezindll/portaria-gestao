@@ -1,5 +1,6 @@
 package com.portaria.gestao.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,5 +27,6 @@ public class Veiculo {
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id", nullable = false)
+    @JsonBackReference
     private Funcionario funcionario;
 }

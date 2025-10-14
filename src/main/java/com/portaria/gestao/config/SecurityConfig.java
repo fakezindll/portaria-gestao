@@ -26,7 +26,11 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/**").permitAll().requestMatchers("/api/funcionarios/**").authenticated().requestMatchers("/api/portaria/**").authenticated().anyRequest().authenticated())
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/**").permitAll()
+
+                        .requestMatchers("/api/funcionarios/**", "/api/portaria/**", "/api/relatorios/**").hasAuthority("ROLE_PORTEIRO")
+
+                        .anyRequest().hasAuthority("ROLE_PORTEIRO"))
 
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
