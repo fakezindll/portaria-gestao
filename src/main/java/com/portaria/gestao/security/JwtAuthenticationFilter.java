@@ -47,9 +47,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                String authoritiesString = jwtService.extractClaim(jwt, claims -> (String) claims.get("authorities"));
+                Object authoritiesObject = jwtService.extractClaim(jwt, claims -> claims.get("authorities"));
 
-                List<SimpleGrantedAuthority> authorities = Arrays.stream(authoritiesString.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+                String authoritiesString;
+                if (authoritiesObject != null) {
+                    authoritiesString = String.valueOf(authoritiesObject);
+                } else {
+                    authoritiesString = "";
+                }
+
+                List<SimpleGrantedAuthority> authorities = Arrays.stream(authoritiesString.split(","))
+                        .filter(auth -> !auth.trim().isEmpty())
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
 
