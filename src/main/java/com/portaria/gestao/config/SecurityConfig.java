@@ -22,18 +22,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).formLogin(AbstractHttpConfigurer::disable)
-
+        http.csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/**").permitAll()
-
-                        // SOLUÇÃO DE EMERGÊNCIA: Permite acesso a QUALQUER USUÁRIO AUTENTICADO.
-                        // Isso ignora o erro de Role e permite validar a lógica de negócio.
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/auth/**", "/error", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/funcionarios/**", "/api/portaria/**", "/api/relatorios/**").authenticated()
-
                         .anyRequest().authenticated())
-
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
